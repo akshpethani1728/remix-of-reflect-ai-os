@@ -122,25 +122,24 @@ function FloatingOrbs() {
         <motion.div
           key={i}
           initial={{ opacity: 0, scale: 0 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: orb.delay + 0.5 }}
-          className="pointer-events-none absolute rounded-full bg-primary/30 blur-sm"
-          style={{
-            width: orb.size,
-            height: orb.size,
-            left: orb.x,
-            top: orb.y,
-          }}
           animate={{
+            opacity: [0.3, 0.6, 0.3],
+            scale: 1,
             y: [0, -30, 0],
             x: [0, 15, 0],
-            opacity: [0.3, 0.6, 0.3],
           }}
           transition={{
             duration: 4 + Math.random() * 2,
             repeat: Infinity,
             ease: "easeInOut",
             delay: orb.delay,
+          }}
+          className="pointer-events-none absolute rounded-full bg-primary/30 blur-sm"
+          style={{
+            width: orb.size,
+            height: orb.size,
+            left: orb.x,
+            top: orb.y,
           }}
         />
       ))}
