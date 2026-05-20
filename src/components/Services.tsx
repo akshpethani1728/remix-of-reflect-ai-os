@@ -41,25 +41,50 @@ const services = [
 function Card({ title, desc, icon, i, featured, badge }: { title: string; desc: string; icon: ReactNode; i: number; featured?: boolean; badge?: string }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, y: 24, scale: 0.95 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.5, delay: i * 0.05 }}
-      whileHover={{ y: -4 }}
-      className={`group relative overflow-hidden rounded-3xl glass glow-border p-6 transition-shadow hover:shadow-[0_0_40px_-10px_oklch(0.7_0.18_162/0.45)] ${
+      transition={{ duration: 0.5, delay: i * 0.08 }}
+      whileHover={{ y: -8, scale: 1.02 }}
+      className={`group relative overflow-hidden rounded-3xl glass glow-border p-6 transition-all duration-300 hover:shadow-[0_0_60px_-15px_oklch(0.7_0.18_162/0.5)] ${
         featured ? "ring-1 ring-primary/40" : ""
       }`}
     >
+      {/* Hover glow effect */}
+      <div className="pointer-events-none absolute -inset-px opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        style={{ background: "radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), oklch(0.82 0.18 215 / 0.1), transparent 40%)" }}
+      />
+
       {badge && (
-        <span className="absolute right-4 top-4 rounded-full bg-primary/15 px-2.5 py-1 text-[10px] font-medium text-primary">
+        <motion.span
+          whileHover={{ scale: 1.05 }}
+          className="absolute right-4 top-4 rounded-full bg-primary/15 px-2.5 py-1 text-[10px] font-medium text-primary"
+        >
           {badge}
-        </span>
+        </motion.span>
       )}
-      <div className="flex size-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 shadow-inner">
+      <motion.div
+        whileHover={{ scale: 1.1, rotate: 5 }}
+        className="flex size-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 shadow-inner transition-colors group-hover:from-primary/20 group-hover:to-accent/20"
+      >
         {icon}
-      </div>
-      <h3 className="mt-5 text-lg font-semibold">{title}</h3>
+      </motion.div>
+      <motion.h3
+        whileHover={{ color: "oklch(0.68 0.16 162)" }}
+        className="mt-5 text-lg font-semibold transition-colors"
+      >
+        {title}
+      </motion.h3>
       <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{desc}</p>
+
+      {/* Arrow that appears on hover */}
+      <motion.div
+        initial={{ opacity: 0, x: -10 }}
+        whileHover={{ opacity: 1, x: 0 }}
+        className="absolute bottom-6 right-6 text-primary"
+      >
+        →
+      </motion.div>
     </motion.div>
   );
 }

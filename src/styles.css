@@ -204,4 +204,25 @@
     20%  { opacity: 1; }
     100% { transform: translateY(120vh); opacity: 0; }
   }
+
+  @keyframes gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+  .animate-gradient {
+    background-size: 200% 200%;
+    animation: gradient-shift 8s ease infinite;
+  }
+
+  @keyframes float-3d {
+    0%, 100% { transform: translateY(0) rotateX(0deg); }
+    50% { transform: translateY(-20px) rotateX(5deg); }
+  }
+  .animate-float-3d { animation: float-3d 6s ease-in-out infinite; }
+
+  @keyframes glow-pulse {
+    0%, 100% { box-shadow: 0 0 20px -5px oklch(0.68 0.16 162/0.4); }
+    50% { box-shadow: 0 0 40px -5px oklch(0.68 0.16 162/0.6); }
+  }
+  .animate-glow-pulse { animation: glow-pulse 3s ease-in-out infinite; }
 }

@@ -112,18 +112,18 @@ function PlanCard({ plan, yearly, i }: { plan: Plan; yearly: boolean; i: number 
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, y: 40, scale: 0.95 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6, delay: i * 0.08 }}
-      whileHover={{ y: -8, scale: 1.01 }}
+      whileHover={{ y: -12, scale: 1.02 }}
       onMouseMove={(e) => {
         const el = e.currentTarget as HTMLDivElement;
         const r = el.getBoundingClientRect();
         el.style.setProperty("--mx", `${e.clientX - r.left}px`);
         el.style.setProperty("--my", `${e.clientY - r.top}px`);
       }}
-      className={`group relative overflow-hidden rounded-3xl p-8 transition-shadow ${
+      className={`group relative overflow-hidden rounded-3xl p-8 transition-all duration-300 ${
         plan.featured
           ? "glass-strong border-primary/40"
           : "glass glow-border"
@@ -147,7 +147,7 @@ function PlanCard({ plan, yearly, i }: { plan: Plan; yearly: boolean; i: number 
       {plan.featured && (
         <>
           <motion.div
-            animate={{ scale: [1, 1.05, 1] }}
+            animate={{ scale: [1, 1.05, 1], boxShadow: ["0 0 0 0 oklch(0.68 0.16 162/0.4)", "0 0 20px 5px oklch(0.68 0.16 162/0)", "0 0 0 0 oklch(0.68 0.16 162/0.4)"] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             className="absolute -top-px left-1/2 -translate-x-1/2 rounded-b-full bg-gradient-to-r from-primary to-accent px-4 py-1 text-[10px] font-semibold uppercase tracking-widest text-background"
           >
@@ -157,39 +157,70 @@ function PlanCard({ plan, yearly, i }: { plan: Plan; yearly: boolean; i: number 
         </>
       )}
 
-      <div className="font-display text-xs uppercase tracking-[0.3em] text-muted-foreground">
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ delay: i * 0.1 }}
+        className="font-display text-xs uppercase tracking-[0.3em] text-muted-foreground"
+      >
         {plan.name}
-      </div>
-      <p className="mt-2 text-sm text-muted-foreground">{plan.tagline}</p>
+      </motion.div>
+      <motion.p
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ delay: i * 0.1 + 0.1 }}
+        className="mt-2 text-sm text-muted-foreground"
+      >
+        {plan.tagline}
+      </motion.p>
 
-      <div className="mt-6 flex items-baseline gap-1">
-        <span className="font-display text-5xl font-semibold text-gradient">
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ delay: i * 0.1 + 0.15 }}
+        className="mt-6 flex items-baseline gap-1"
+      >
+        <motion.span
+          className="font-display text-5xl font-semibold text-gradient"
+          whileHover={{ scale: 1.05 }}
+        >
           ₹{price.toLocaleString("en-IN")}
-        </span>
+        </motion.span>
         <span className="text-sm text-muted-foreground">{period}</span>
-      </div>
+      </motion.div>
 
-      <a
+      <motion.a
         href="#contact"
-        className={`mt-7 block rounded-full px-5 py-3 text-center text-sm font-medium transition-transform hover:scale-[1.02] ${
+        whileHover={{ scale: 1.03, boxShadow: "0 10px 40px -15px oklch(0.68 0.16 162/0.5)" }}
+        whileTap={{ scale: 0.98 }}
+        className={`mt-7 block rounded-full px-5 py-3 text-center text-sm font-medium transition-all ${
           plan.featured
-            ? "bg-gradient-to-r from-primary to-accent text-background"
+            ? "bg-gradient-to-r from-primary to-accent text-background shadow-lg shadow-primary/30"
             : "bg-foreground text-background"
         }`}
       >
         {plan.featured ? "Start with Pro" : `Choose ${plan.name.toLowerCase()}`}
-      </a>
+      </motion.a>
 
       <div className="my-6 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
 
       <ul className="space-y-3 text-sm">
-        {plan.features.map((f) => (
-          <li key={f} className="flex items-start gap-3">
-            <span className="mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full bg-primary/15 text-primary">
+        {plan.features.map((f, idx) => (
+          <motion.li
+            key={f}
+            initial={{ opacity: 0, x: -10 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ delay: i * 0.1 + 0.2 + idx * 0.05 }}
+            className="flex items-start gap-3"
+          >
+            <motion.span
+              whileHover={{ scale: 1.2, rotate: 15 }}
+              className="mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full bg-primary/15 text-primary"
+            >
               <Check className="size-3" />
-            </span>
+            </motion.span>
             <span className="text-foreground/90">{f}</span>
-          </li>
+          </motion.li>
         ))}
       </ul>
     </motion.div>
