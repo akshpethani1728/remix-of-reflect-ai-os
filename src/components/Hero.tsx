@@ -14,10 +14,14 @@ export function Hero() {
           transition={{ duration: 0.6 }}
           className="mx-auto mb-7 flex justify-center"
         >
-          <span className="glass inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs text-muted-foreground">
+          <motion.span
+            animate={{ y: [0, -5, 0] }}
+            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            className="glass inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs text-muted-foreground"
+          >
             <span className="size-1.5 animate-pulse rounded-full bg-primary shadow-[0_0_10px_oklch(0.82_0.18_215)]" />
             Visibility With Automation
-          </span>
+          </motion.span>
         </motion.div>
 
         <motion.h1
@@ -26,10 +30,10 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 0.1 }}
           className="mx-auto max-w-4xl text-center text-4xl font-semibold leading-[1.05] tracking-tight md:text-6xl lg:text-7xl"
         >
-          <span className="text-gradient">Get More Customers</span>
+          <span className="text-gradient">Get 10x More Calls</span>
           <br />
-          <span className="text-foreground">Through Google &amp; </span>
-          <span className="text-neon">Automation</span>
+          <span className="text-foreground">From </span>
+          <span className="text-neon">Google Searches</span>
         </motion.h1>
 
         <motion.p
@@ -38,8 +42,7 @@ export function Hero() {
           transition={{ duration: 0.7, delay: 0.25 }}
           className="mx-auto mt-6 max-w-xl text-center text-base text-muted-foreground md:text-lg"
         >
-          We help local businesses improve visibility, automate customer replies,
-          and grow their online presence.
+          We help local businesses rank #1 on Google Maps, automate replies on WhatsApp & Instagram, and turn every inquiry into a booked customer.
         </motion.p>
 
         <motion.div

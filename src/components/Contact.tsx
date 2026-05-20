@@ -33,12 +33,20 @@ export function Contact() {
                 className="mt-2 w-full rounded-2xl glass px-4 py-3 text-sm text-foreground outline-none transition-all focus:border-primary focus:shadow-[0_0_0_4px_oklch(0.82_0.18_215/0.15)]"
               />
             </div>
-            <button
+            <motion.button
               type="submit"
-              className="md:col-span-2 group relative overflow-hidden rounded-full bg-gradient-to-r from-primary to-accent px-6 py-3.5 text-sm font-medium text-background transition-transform hover:scale-[1.01]"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="md:col-span-2 group relative overflow-hidden rounded-full bg-gradient-to-r from-primary to-accent px-6 py-3.5 text-sm font-medium text-background shadow-lg shadow-primary/25"
             >
               <span className="relative z-10">Request my free audit →</span>
-            </button>
+              <motion.span
+                className="absolute inset-0 -z-0 bg-white/20"
+                initial={{ x: "-100%" }}
+                whileHover={{ x: "100%" }}
+                transition={{ duration: 0.5 }}
+              />
+            </motion.button>
             <a
               href="https://wa.me/919999999999"
               className="md:col-span-2 inline-flex items-center justify-center gap-2 rounded-full glass px-6 py-3 text-sm transition-colors hover:text-primary"

@@ -146,9 +146,13 @@ function PlanCard({ plan, yearly, i }: { plan: Plan; yearly: boolean; i: number 
 
       {plan.featured && (
         <>
-          <div className="absolute -top-px left-1/2 -translate-x-1/2 rounded-b-full bg-gradient-to-r from-primary to-accent px-4 py-1 text-[10px] font-semibold uppercase tracking-widest text-background">
+          <motion.div
+            animate={{ scale: [1, 1.05, 1] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute -top-px left-1/2 -translate-x-1/2 rounded-b-full bg-gradient-to-r from-primary to-accent px-4 py-1 text-[10px] font-semibold uppercase tracking-widest text-background"
+          >
             Most Popular
-          </div>
+          </motion.div>
           <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,oklch(0.65_0.25_285/0.22),transparent_65%)]" />
         </>
       )}
