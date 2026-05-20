@@ -4,4 +4,10 @@
   "compatibility_date": "2025-09-24",
   "compatibility_flags": ["nodejs_compat"],
   "main": "src/server.ts",
+  "vars": {
+    "RAZORPAY_KEY_ID": "your_razorpay_key_id"
+  },
+  "secrets": {
+    "RAZORPAY_KEY_SECRET": "your_razorpay_key_secret"
+  }
 }
