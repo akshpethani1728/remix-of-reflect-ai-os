@@ -55,7 +55,7 @@ interface PaymentButtonProps {
 }
 
 // Replace with your Razorpay Key ID
-const RAZORPAY_KEY_ID = "rzp_live_Srdw366RmtUhU";
+const RAZORPAY_KEY_ID = "rzp_live_Srkdw366RmtUhU";
 
 export function PaymentButton({ amount, planName, userData, onSuccess, onFailure }: PaymentButtonProps) {
   const [loading, setLoading] = useState(false);
