@@ -1,5 +1,5 @@
 import { useEffect, useRef, useCallback } from "react";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 
 export function CustomCursor() {
   const cx = useMotionValue(-200);
@@ -7,11 +7,13 @@ export function CustomCursor() {
   const dotX = useMotionValue(-200);
   const dotY = useMotionValue(-200);
   const hover = useMotionValue(0);
-  const click = useMotionValue(0);
 
-  const springX = useSpring(cx, { stiffness: 120, damping: 18, mass: 0.5 });
-  const springY = useSpring(cy, { stiffness: 120, damping: 18, mass: 0.5 });
-  const springHover = useSpring(hover, { stiffness: 150, damping: 15 });
+  const springX = useSpring(cx, { stiffness: 150, damping: 20, mass: 0.3 });
+  const springY = useSpring(cy, { stiffness: 150, damping: 20, mass: 0.3 });
+  const springHover = useSpring(hover, { stiffness: 200, damping: 25 });
+
+  const ringScale = useTransform(springHover, [0, 1], [0.4, 1]);
+  const ringOpacity = useTransform(springHover, [0, 1], [0.6, 0.2]);
 
   const cleanupRef = useRef<(() => void) | null>(null);
 
@@ -25,36 +27,31 @@ export function CustomCursor() {
 
     const enter = () => hover.set(1);
     const leave = () => hover.set(0);
-    const down = () => click.set(1);
-    const up = () => click.set(0);
 
-    const els = "a, button, [data-cursor], input, textarea, select";
+    const els = "a, button, [data-cursor], input, textarea, select, label";
 
-    window.addEventListener("pointermove", onMove);
-    window.addEventListener("pointerdown", down);
-    window.addEventListener("pointerup", up);
-    document.querySelectorAll(els).forEach((el) => {
-      el.addEventListener("mouseenter", enter);
-      el.addEventListener("mouseleave", leave);
-    });
-
-    const observer = new MutationObserver(() => {
+    const attach = () => {
       document.querySelectorAll(els).forEach((el) => {
-        el.removeEventListener("mouseenter", enter);
-        el.removeEventListener("mouseleave", leave);
         el.addEventListener("mouseenter", enter);
         el.addEventListener("mouseleave", leave);
       });
-    });
+    };
+    attach();
+
+    window.addEventListener("pointermove", onMove);
+
+    const observer = new MutationObserver(attach);
     observer.observe(document.body, { childList: true, subtree: true });
 
     cleanupRef.current = () => {
       window.removeEventListener("pointermove", onMove);
-      window.removeEventListener("pointerdown", down);
-      window.removeEventListener("pointerup", up);
+      document.querySelectorAll(els).forEach((el) => {
+        el.removeEventListener("mouseenter", enter);
+        el.removeEventListener("mouseleave", leave);
+      });
       observer.disconnect();
     };
-  }, [cx, cy, dotX, dotY, hover, click]);
+  }, [cx, cy, dotX, dotY, hover]);
 
   useEffect(() => {
     setup();
@@ -65,19 +62,14 @@ export function CustomCursor() {
     <>
       <motion.div
         className="pointer-events-none fixed left-0 top-0 z-[9999] hidden md:block"
-        style={{
-          x: springX,
-          y: springY,
-          width: springHover.get() ? 48 : 0,
-          height: springHover.get() ? 48 : 0,
-        } as any}
+        style={{ x: springX, y: springY }}
       >
         <motion.div
-          className="-translate-x-1/2 -translate-y-1/2 size-12 rounded-full border border-primary/40"
+          className="-translate-x-1/2 -translate-y-1/2 size-10 rounded-full border border-primary"
           style={{
-            scale: springHover.get() ? 1 : 0.3,
-            opacity: springHover.get() ? 0.15 : 1,
-          } as any}
+            scale: ringScale,
+            opacity: ringOpacity,
+          }}
         />
       </motion.div>
       <motion.div
