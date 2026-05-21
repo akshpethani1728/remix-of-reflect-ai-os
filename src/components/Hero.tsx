@@ -1,17 +1,17 @@
-import { motion, useMotionValue, useSpring } from "framer-motion";
-import { useRef } from "react";
+import { motion } from "framer-motion";
 import { MapPin, Star, Check } from "lucide-react";
+import { Hero3D } from "./Hero3D";
 
 export function Hero() {
   return (
     <section className="relative overflow-hidden pt-36 pb-24 md:pt-44 md:pb-32">
       <div
         aria-hidden
-        className="pointer-events-none absolute left-1/2 top-0 -z-10 size-[800px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,oklch(0.62_0.2_230/0.08),transparent_65%)] blur-3xl"
+        className="pointer-events-none absolute left-1/2 top-0 -z-10 size-[900px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,oklch(0.62_0.2_230/0.07),transparent_65%)] blur-3xl"
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute left-1/3 top-1/3 -z-10 size-[400px] rounded-full bg-[radial-gradient(circle,oklch(0.62_0.2_230/0.05),transparent_65%)] blur-3xl"
+        className="pointer-events-none absolute left-1/4 top-1/4 -z-10 size-[500px] rounded-full bg-[radial-gradient(circle,oklch(0.62_0.2_230/0.04),transparent_65%)] blur-3xl"
       />
 
       <div className="container mx-auto px-6">
@@ -74,30 +74,59 @@ export function Hero() {
           </a>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.45, ease: [0.25, 0.1, 0.25, 1] }}
-          className="relative mx-auto mt-20 max-w-5xl"
-        >
-          <div className="grid gap-5 md:grid-cols-[1.5fr_1fr]">
-            <div className="group perspective-[1000px]">
-              <div className="overflow-hidden rounded-2xl border border-border transition-all duration-500 hover:border-primary/30 hover:shadow-[0_0_60px_-20px_oklch(0.62_0.2_230/0.2)]">
+        <div className="relative mx-auto mt-20 max-w-5xl">
+          <div className="grid gap-6 lg:grid-cols-[1.6fr_1fr]">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+              className="group"
+            >
+              <div className="overflow-hidden rounded-2xl border border-border transition-all duration-500 hover:border-primary/30 hover:shadow-[0_0_70px_-25px_oklch(0.62_0.2_230/0.2)]">
                 <GBPShowcase />
               </div>
-            </div>
-            <div className="group perspective-[1000px]">
-              <div className="overflow-hidden rounded-2xl border border-border transition-all duration-500 hover:border-primary/30 hover:shadow-[0_0_40px_-20px_oklch(0.62_0.2_230/0.15)]">
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+              className="flex flex-col gap-4"
+            >
+              <div className="overflow-hidden rounded-2xl border border-border transition-all duration-500 hover:border-primary/30 hover:shadow-[0_0_50px_-20px_oklch(0.62_0.2_230/0.15)]">
                 <WhatsAppShowcase />
               </div>
-            </div>
+              <div className="overflow-hidden rounded-2xl border border-border bg-card/30 p-4 transition-all duration-500 hover:border-primary/30">
+                <div className="flex items-center gap-3">
+                  <div className="relative size-14 shrink-0 overflow-hidden rounded-full border-2 border-primary/20">
+                    <img
+                      src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=100&h=100&fit=crop&auto=format"
+                      alt="Team member"
+                      className="size-full object-cover"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-1 text-xs">
+                      {Array.from({ length: 5 }).map((_, i) => (
+                        <Star key={i} className="size-3 fill-[oklch(0.72_0.18_70)] text-[oklch(0.72_0.18_70)]" />
+                      ))}
+                    </div>
+                    <p className="mt-1 text-[11px] leading-relaxed text-muted-foreground">
+                      "Reflect transformed how we manage our online presence. Bookings tripled in 2 months."
+                    </p>
+                    <p className="mt-1 text-[10px] font-medium text-foreground">— Ananya R., Bloom Salon</p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
           </div>
-        </motion.div>
+        </div>
 
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
+          transition={{ duration: 0.6, delay: 0.7 }}
           className="mt-10 flex flex-wrap items-center justify-center gap-8 text-xs text-muted-foreground"
         >
           {[
@@ -117,32 +146,8 @@ export function Hero() {
 }
 
 function GBPShowcase() {
-  const ref = useRef<HTMLDivElement>(null);
-  const mouseX = useMotionValue(0.5);
-  const mouseY = useMotionValue(0.5);
-  const springX = useSpring(mouseX, { stiffness: 100, damping: 20 });
-  const springY = useSpring(mouseY, { stiffness: 100, damping: 20 });
-
-  const onMove = (e: React.MouseEvent) => {
-    const r = ref.current!.getBoundingClientRect();
-    mouseX.set((e.clientX - r.left) / r.width);
-    mouseY.set((e.clientY - r.top) / r.height);
-  };
-
   return (
-    <div
-      ref={ref}
-      onMouseMove={onMove}
-      onMouseLeave={() => { mouseX.set(0.5); mouseY.set(0.5); }}
-      className="relative"
-    >
-      <motion.div
-        className="pointer-events-none absolute -inset-40 -z-10 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-        style={{
-          background: springX.get() && springY.get() ? undefined : undefined,
-          backgroundImage: `radial-gradient(circle at ${springX.get() * 100}% ${springY.get() * 100}%, oklch(0.62 0.2 230 / 0.08), transparent 50%)`,
-        } as any}
-      />
+    <div className="relative">
       <div className="flex items-center gap-3 border-b border-border px-5 py-3">
         <div className="flex items-center gap-1.5">
           <span className="size-2 rounded-full bg-[oklch(0.65_0.2_25)]" />
@@ -152,20 +157,21 @@ function GBPShowcase() {
         <span className="text-[10px] text-muted-foreground">Google Maps — Bloom Salon</span>
       </div>
       <div className="p-5">
-        <div className="relative h-48 overflow-hidden rounded-xl" style={{ background: "linear-gradient(135deg,#141f1f 0%,#1f2f2f 50%,#141f1f 100%)" }}>
-          <div className="absolute inset-0 opacity-15" style={{
-            backgroundImage: "repeating-linear-gradient(45deg,transparent 0 20px,rgba(255,255,255,0.02) 20px 21px),repeating-linear-gradient(-45deg,transparent 0 28px,rgba(255,255,255,0.015) 28px 29px)",
+        <div className="relative h-52 overflow-hidden rounded-xl" style={{ background: "linear-gradient(135deg,#0f1f1f 0%,#1a2f2f 50%,#0f1f1f 100%)" }}>
+          <div className="absolute inset-0 opacity-[0.12]" style={{
+            backgroundImage: "repeating-linear-gradient(45deg,transparent 0 22px,rgba(255,255,255,0.02) 22px 23px),repeating-linear-gradient(-45deg,transparent 0 30px,rgba(255,255,255,0.015) 30px 31px)",
           }} />
           <div className="absolute left-0 right-0 top-[55%] h-[3px] bg-border/40" />
-          <div className="absolute bottom-0 top-0 left-[40%] w-[3px] bg-border/40" />
+          <div className="absolute bottom-0 top-0 left-[38%] w-[3px] bg-border/40" />
           <motion.div
-            animate={{ y: [0, -6, 0] }}
+            animate={{ y: [0, -8, 0], scale: [1, 1.05, 1] }}
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute left-[40%] top-[55%] -translate-x-1/2 -translate-y-1/2"
+            className="absolute left-[38%] top-[55%] -translate-x-1/2 -translate-y-1/2"
           >
-            <div className="flex size-10 items-center justify-center rounded-full bg-primary shadow-lg shadow-primary/30">
+            <div className="flex size-11 items-center justify-center rounded-full bg-primary shadow-lg shadow-primary/30">
               <MapPin className="size-5 fill-current text-primary-foreground" />
             </div>
+            <div className="absolute left-1/2 top-full size-16 -translate-x-1/2 -translate-y-1/2 animate-pulse-soft rounded-full bg-primary/15 blur-md" />
           </motion.div>
         </div>
         <div className="mt-4 flex items-center justify-between">
@@ -173,7 +179,7 @@ function GBPShowcase() {
             <div className="text-sm font-medium">Bloom Salon & Spa</div>
             <div className="mt-0.5 flex items-center gap-1 text-xs text-muted-foreground">
               <MapPin className="size-3" />
-              0.4 km · Open · 4.9★
+              0.4 km · <span className="text-[oklch(0.6_0.2_145)]">Open</span> · 4.9★
             </div>
           </div>
           <div className="rounded-full bg-primary/10 px-3 py-1 text-[10px] font-medium text-primary">
@@ -182,7 +188,7 @@ function GBPShowcase() {
         </div>
         <div className="mt-3 grid grid-cols-4 gap-2">
           {["Directions", "Call", "Website", "Share"].map((label) => (
-            <div key={label} className="rounded-lg border border-border bg-background/50 py-2 text-center text-[9px] text-muted-foreground transition-colors hover:bg-card hover:text-foreground cursor-default">
+            <div key={label} className="rounded-lg border border-border bg-background/50 py-2.5 text-center text-[9px] text-muted-foreground transition-colors hover:bg-card hover:text-foreground cursor-default">
               {label}
             </div>
           ))}
@@ -204,11 +210,9 @@ function WhatsAppShowcase() {
         <span className="text-[10px] text-muted-foreground">WhatsApp — Auto-Reply</span>
       </div>
       <div className="p-5">
-        <div className="rounded-xl bg-[#111f1f] p-3">
+        <div className="rounded-xl bg-[#0e1d1d] p-3">
           <div className="mb-3 flex items-center gap-2.5 border-b border-border/40 pb-2.5">
-            <div className="flex size-7 items-center justify-center rounded-full bg-primary/20 text-[10px] font-semibold text-primary">
-              B
-            </div>
+            <div className="flex size-7 items-center justify-center rounded-full bg-primary/20 text-[10px] font-semibold text-primary">B</div>
             <div className="flex-1">
               <div className="text-xs font-medium">Bloom Salon</div>
               <div className="flex items-center gap-1 text-[9px] text-muted-foreground">
@@ -237,9 +241,7 @@ function ChatBubble({ side, children, auto }: { side: "left" | "right"; children
   return (
     <div className={`flex ${isRight ? "justify-end" : "justify-start"}`}>
       <div className={`max-w-[88%] rounded-xl px-3 py-2 text-[11px] leading-relaxed ${
-        isRight
-          ? "rounded-br-sm bg-primary/20 text-foreground"
-          : "rounded-bl-sm bg-background/80 text-foreground/90"
+        isRight ? "rounded-br-sm bg-primary/20 text-foreground" : "rounded-bl-sm bg-background/80 text-foreground/90"
       }`}>
         <div>{children}</div>
         {auto && (

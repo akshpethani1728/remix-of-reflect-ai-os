@@ -37,9 +37,7 @@ const services = [
 
 const container = {
   hidden: {},
-  show: {
-    transition: { staggerChildren: 0.06 },
-  },
+  show: { transition: { staggerChildren: 0.06 } },
 };
 
 const item = {
@@ -47,7 +45,7 @@ const item = {
   show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] } },
 };
 
-function Card({ title, desc, icon, i }: { title: string; desc: string; icon: ReactNode; i: number }) {
+function Card({ title, desc, icon }: { title: string; desc: string; icon: ReactNode }) {
   return (
     <motion.div
       variants={item}
@@ -59,7 +57,7 @@ function Card({ title, desc, icon, i }: { title: string; desc: string; icon: Rea
       <motion.div
         whileHover={{ scale: 1.1, rotate: -3 }}
         transition={{ type: "spring", stiffness: 300, damping: 15 }}
-        className="flex size-11 items-center justify-center rounded-xl bg-primary/10 text-primary"
+        className="flex size-11 items-center justify-center rounded-xl bg-gradient-to-br from-primary/15 to-primary/5 text-primary"
       >
         {icon}
       </motion.div>
@@ -82,7 +80,7 @@ export function Services() {
     <section id="services" className="relative py-28">
       <div
         aria-hidden
-        className="pointer-events-none absolute left-1/3 top-1/4 -z-10 size-[500px] rounded-full bg-[radial-gradient(circle,oklch(0.62_0.2_230/0.04),transparent_65%)] blur-3xl"
+        className="pointer-events-none absolute left-1/3 top-1/4 -z-10 size-[500px] rounded-full bg-[radial-gradient(circle,oklch(0.62_0.2_230/0.035),transparent_65%)] blur-3xl"
       />
 
       <div className="container mx-auto px-6">
@@ -111,7 +109,7 @@ export function Services() {
           viewport={{ once: true, margin: "-40px" }}
           className="mx-auto mt-12 grid max-w-5xl gap-4 sm:grid-cols-2 lg:grid-cols-3"
         >
-          {services.map((s, i) => <Card key={s.title} {...s} i={i} />)}
+          {services.map((s) => <Card key={s.title} {...s} />)}
         </motion.div>
       </div>
     </section>

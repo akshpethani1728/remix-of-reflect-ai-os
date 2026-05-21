@@ -36,24 +36,24 @@
 
 :root {
   --radius: 0.875rem;
-  --background: oklch(0.11 0.01 260);
+  --background: oklch(0.09 0.01 260);
   --foreground: oklch(0.95 0.005 260);
-  --card: oklch(0.16 0.01 260);
+  --card: oklch(0.14 0.01 260);
   --card-foreground: oklch(0.95 0.005 260);
-  --popover: oklch(0.16 0.01 260);
+  --popover: oklch(0.14 0.01 260);
   --popover-foreground: oklch(0.95 0.005 260);
   --primary: oklch(0.62 0.2 230);
-  --primary-foreground: oklch(0.11 0.01 260);
-  --secondary: oklch(0.2 0.01 260);
+  --primary-foreground: oklch(0.09 0.01 260);
+  --secondary: oklch(0.18 0.01 260);
   --secondary-foreground: oklch(0.95 0.005 260);
-  --muted: oklch(0.2 0.01 260);
+  --muted: oklch(0.18 0.01 260);
   --muted-foreground: oklch(0.55 0.015 260);
-  --accent: oklch(0.25 0.015 260);
+  --accent: oklch(0.22 0.015 260);
   --accent-foreground: oklch(0.95 0.005 260);
   --destructive: oklch(0.62 0.22 25);
   --destructive-foreground: oklch(0.95 0.005 260);
   --border: oklch(1 0 0 / 0.06);
-  --input: oklch(0.2 0.01 260);
+  --input: oklch(0.18 0.01 260);
   --ring: oklch(0.62 0.2 230);
 }
 
@@ -109,8 +109,8 @@ html.lenis {
 
   .grid-bg {
     background-image:
-      linear-gradient(oklch(1 0 0 / 0.025) 1px, transparent 1px),
-      linear-gradient(90deg, oklch(1 0 0 / 0.025) 1px, transparent 1px);
+      linear-gradient(oklch(1 0 0 / 0.02) 1px, transparent 1px),
+      linear-gradient(90deg, oklch(1 0 0 / 0.02) 1px, transparent 1px);
     background-size: 48px 48px;
   }
 
@@ -121,26 +121,27 @@ html.lenis {
     animation: spin-slow 20s linear infinite;
   }
 
-  @keyframes spin-slower {
-    to { transform: rotate(360deg); }
-  }
-  .animate-spin-slower {
-    animation: spin-slower 35s linear infinite;
-  }
-
-  @keyframes border-glow {
-    0%, 100% { border-color: oklch(0.62 0.2 230 / 0.3); }
-    50% { border-color: oklch(0.62 0.2 230 / 0.6); }
-  }
-  .animate-border-glow {
-    animation: border-glow 3s ease-in-out infinite;
+  @keyframes drift {
+    0% { transform: translate(0, 0); }
+    25% { transform: translate(5%, -8%); }
+    50% { transform: translate(-3%, 5%); }
+    75% { transform: translate(8%, -3%); }
+    100% { transform: translate(0, 0); }
   }
 
-  @keyframes float-subtle {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
+  @keyframes float-3d {
+    0%, 100% { transform: translateY(0) rotateX(0deg); }
+    50% { transform: translateY(-16px) rotateX(4deg); }
   }
-  .animate-float-subtle {
-    animation: float-subtle 5s ease-in-out infinite;
+  .animate-float-3d {
+    animation: float-3d 5s ease-in-out infinite;
+  }
+
+  @keyframes pulse-soft {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.03); }
+  }
+  .animate-pulse-soft {
+    animation: pulse-soft 3s ease-in-out infinite;
   }
 }

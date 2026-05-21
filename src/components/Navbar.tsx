@@ -1,5 +1,6 @@
-import { motion, useScroll, useMotionValueEvent } from "framer-motion";
+import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import { Menu, X } from "lucide-react";
 import { Logo } from "./Logo";
 
 const links = [
@@ -10,6 +11,7 @@ const links = [
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
   const { scrollY } = useScroll();
 
   useMotionValueEvent(scrollY, "change", (y) => {
@@ -26,9 +28,9 @@ export function Navbar() {
       <motion.nav
         animate={{
           backgroundColor: scrolled
-            ? "oklch(0.11 0.01 260 / 0.7)"
-            : "oklch(1 0 0 / 0.04)",
-          backdropFilter: scrolled ? "blur(32px) saturate(140%)" : "blur(24px) saturate(120%)",
+            ? "oklch(0.09 0.01 260 / 0.75)"
+            : "oklch(1 0 0 / 0.035)",
+          backdropFilter: scrolled ? "blur(36px) saturate(150%)" : "blur(24px) saturate(120%)",
           borderColor: scrolled
             ? "oklch(1 0 0 / 0.08)"
             : "oklch(1 0 0 / 0.06)",
@@ -40,32 +42,79 @@ export function Navbar() {
           <Logo className="size-8" />
           <span className="text-base font-semibold tracking-tight">Reflect</span>
         </a>
+
         <ul className="hidden items-center gap-8 text-sm text-muted-foreground md:flex">
           {links.map((l) => (
             <li key={l.href}>
               <a
                 href={l.href}
-                className="transition-colors hover:text-foreground relative after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full"
+                className="relative transition-colors hover:text-foreground after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full"
               >
                 {l.label}
               </a>
             </li>
           ))}
         </ul>
-        <a
-          href="#contact"
-          className="group relative inline-flex items-center gap-1.5 overflow-hidden rounded-full bg-primary px-5 py-2 text-xs font-medium text-primary-foreground transition-all"
-        >
-          <span className="relative z-10">Get Started</span>
-          <span className="relative z-10 inline-block transition-transform duration-300 group-hover:translate-x-0.5">→</span>
-          <motion.div
-            className="absolute inset-0 bg-white/15"
-            initial={{ x: "-100%" }}
-            whileHover={{ x: "100%" }}
-            transition={{ duration: 0.4 }}
-          />
-        </a>
+
+        <div className="flex items-center gap-2">
+          <a
+            href="#contact"
+            className="group relative hidden overflow-hidden rounded-full bg-primary px-5 py-2 text-xs font-medium text-primary-foreground transition-all md:inline-flex items-center gap-1.5"
+          >
+            <span className="relative z-10">Get Started</span>
+            <span className="relative z-10 inline-block transition-transform duration-300 group-hover:translate-x-0.5">→</span>
+            <motion.div
+              className="absolute inset-0 bg-white/15"
+              initial={{ x: "-100%" }}
+              whileHover={{ x: "100%" }}
+              transition={{ duration: 0.4 }}
+            />
+          </a>
+          <button
+            onClick={() => setOpen(!open)}
+            className="flex size-9 items-center justify-center rounded-lg border border-border text-muted-foreground transition-colors hover:text-foreground md:hidden"
+            aria-label="Menu"
+          >
+            {open ? <X className="size-4" /> : <Menu className="size-4" />}
+          </button>
+        </div>
       </motion.nav>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, y: -10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.95 }}
+            transition={{ duration: 0.2 }}
+            className="mt-2 overflow-hidden rounded-2xl border border-border bg-card/95 backdrop-blur-2xl md:hidden"
+          >
+            <div className="p-4">
+              <ul className="space-y-1">
+                {links.map((l) => (
+                  <li key={l.href}>
+                    <a
+                      href={l.href}
+                      onClick={() => setOpen(false)}
+                      className="block rounded-lg px-4 py-3 text-sm text-muted-foreground transition-colors hover:bg-background hover:text-foreground"
+                    >
+                      {l.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <a
+                href="#contact"
+                onClick={() => setOpen(false)}
+                className="mt-3 flex items-center justify-center gap-1.5 rounded-xl bg-primary py-3 text-sm font-medium text-primary-foreground"
+              >
+                Get Started
+                <span>→</span>
+              </a>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.header>
   );
 }

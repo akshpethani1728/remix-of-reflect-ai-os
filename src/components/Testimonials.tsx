@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
 
 const items = [
-  { q: "Bookings tripled in 60 days. WhatsApp replies are instant and customers love it.", n: "Ananya R.", r: "Owner, Bloom Salon" },
-  { q: "We now rank #1 on Google Maps for our area. Walk-ins are up every week.", n: "Rahul M.", r: "Founder, FitForge Gym" },
-  { q: "Reflect replies to 4 out of 10 enquiries on its own. Pure time saved.", n: "Sneha K.", r: "Director, Curate Interiors" },
-  { q: "Our Google rating went from 4.1 to 4.8 in three months. Customers trust us more.", n: "Pooja S.", r: "Owner, Spice Trail Café" },
+  { q: "Bookings tripled in 60 days. WhatsApp replies are instant and customers love it.", n: "Ananya R.", r: "Owner, Bloom Salon", img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face&auto=format" },
+  { q: "We now rank #1 on Google Maps for our area. Walk-ins are up every week.", n: "Rahul M.", r: "Founder, FitForge Gym", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face&auto=format" },
+  { q: "Reflect replies to 4 out of 10 enquiries on its own. Pure time saved.", n: "Sneha K.", r: "Director, Curate Interiors", img: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face&auto=format" },
+  { q: "Our Google rating went from 4.1 to 4.8 in three months. Customers trust us more.", n: "Pooja S.", r: "Owner, Spice Trail Café", img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&crop=face&auto=format" },
 ];
 
 export function Testimonials() {
@@ -48,8 +48,8 @@ export function Testimonials() {
               </div>
               <p className="mt-3 text-sm leading-relaxed text-foreground/80">"{t.q}"</p>
               <div className="mt-4 flex items-center gap-3 border-t border-border pt-4">
-                <div className="flex size-8 items-center justify-center rounded-full bg-primary/10 text-[10px] font-semibold text-primary">
-                  {t.n.charAt(0)}
+                <div className="size-9 overflow-hidden rounded-full border border-primary/20">
+                  <img src={t.img} alt={t.n} className="size-full object-cover" loading="lazy" />
                 </div>
                 <div>
                   <div className="text-xs font-medium">{t.n}</div>
