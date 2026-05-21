@@ -11,6 +11,7 @@ import { Pricing } from "@/components/Pricing";
 import { Testimonials } from "@/components/Testimonials";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
+import { ParallaxUp } from "@/components/ScrollParallax";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -34,12 +35,12 @@ function Index() {
         <Navbar />
         <main className="relative">
           <Hero />
-          <Services />
-          <RealVisuals />
-          <RealImages />
-          <Pricing />
-          <Testimonials />
-          <Contact />
+          <ParallaxUp speed={0.1}><Services /></ParallaxUp>
+          <ParallaxUp speed={0.08}><RealVisuals /></ParallaxUp>
+          <ParallaxUp speed={0.1}><RealImages /></ParallaxUp>
+          <ParallaxUp speed={0.05}><Pricing /></ParallaxUp>
+          <ParallaxUp speed={0.1}><Testimonials /></ParallaxUp>
+          <ParallaxUp speed={0.05}><Contact /></ParallaxUp>
         </main>
         <Footer />
       </SmoothScroll>

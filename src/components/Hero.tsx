@@ -1,192 +1,209 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 import { Star, Check, MapPin, MessageCircle } from "lucide-react";
+import { ThreeDOrbitalRings } from "./ThreeDElement";
+import { ParallaxUp, ParallaxRotate } from "./ScrollParallax";
 
 export function Hero() {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+  const heroScale = useTransform(scrollYProgress, [0, 1], [1, 0.92]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+
   return (
-    <section className="relative overflow-hidden pt-36 pb-24 md:pt-44 md:pb-32">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute left-1/2 top-0 -z-10 size-[700px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,oklch(0.62_0.2_230/0.06),transparent_65%)] blur-3xl"
-      />
+    <section ref={sectionRef} className="relative overflow-hidden pt-36 pb-24 md:pt-44 md:pb-32">
+      <ThreeDOrbitalRings />
 
-      <div className="container mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="mx-auto mb-8 flex justify-center"
-        >
-          <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs text-primary">
-            <span className="size-1.5 rounded-full bg-primary" />
-            Visibility Through Automation
-          </div>
-        </motion.div>
+      <motion.div style={{ scale: heroScale, opacity: heroOpacity }}>
+        <div
+          aria-hidden
+          className="pointer-events-none absolute left-1/2 top-0 -z-10 size-[700px] -translate-x-1/2 rounded-full bg-radial-gradient from-primary/6 to-transparent to-65% blur-3xl"
+        />
 
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.15, ease: [0.25, 0.1, 0.25, 1] }}
-          className="mx-auto max-w-4xl text-center text-[clamp(2.5rem,6vw,4.5rem)] font-semibold leading-[1.08] tracking-tight"
-        >
-          Get More Customers
-          <br />
-          <span className="text-primary">From Google</span>
-        </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
-          className="mx-auto mt-5 max-w-xl text-center text-base leading-relaxed text-muted-foreground md:text-lg"
-        >
-          We help local businesses improve visibility, automate customer replies, and grow online.
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
-          className="mt-9 flex flex-wrap items-center justify-center gap-3"
-        >
-          <a
-            href="#pricing"
-            className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-primary px-7 py-3.5 text-sm font-medium text-primary-foreground transition-all hover:brightness-110"
+        <div className="container mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="mx-auto mb-8 flex justify-center"
           >
-            <span className="relative z-10">See Plans</span>
-            <span className="relative z-10 inline-block transition-transform duration-300 group-hover:translate-x-0.5">→</span>
-            <motion.div
-              className="absolute inset-0 bg-white/15"
-              initial={{ x: "-100%" }}
-              whileHover={{ x: "100%" }}
-              transition={{ duration: 0.4 }}
-            />
-          </a>
-          <a
-            href="#contact"
-            className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-border px-7 py-3.5 text-sm font-medium text-foreground transition-all hover:bg-card"
-          >
-            Free Audit
-          </a>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.45, ease: [0.25, 0.1, 0.25, 1] }}
-          className="mx-auto mt-20 max-w-5xl"
-        >
-          <div className="grid gap-5 md:grid-cols-2">
-            <div className="overflow-hidden rounded-2xl border border-border bg-card/40 transition-all duration-500 hover:border-primary/30">
-              <div className="flex items-center gap-3 border-b border-border px-5 py-3">
-                <MapPin className="size-4 text-primary" />
-                <span className="text-xs text-muted-foreground">Google Maps — Real Business Listing</span>
-              </div>
-              <div className="p-5">
-                <div className="relative overflow-hidden rounded-xl">
-                  <img
-                    src="https://images.unsplash.com/photo-1559305616-3f99cd43e353?w=600&h=400&fit=crop&auto=format"
-                    alt="Google Maps on smartphone showing local business"
-                    className="w-full object-cover"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
-                </div>
-                <div className="mt-4 flex items-center justify-between">
-                  <div>
-                    <div className="text-sm font-medium">Bloom Salon & Spa</div>
-                    <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                      <MapPin className="size-3" />
-                      0.4 km · <span className="text-[oklch(0.6_0.2_145)]">Open</span> · 4.9★
-                    </div>
-                  </div>
-                  <div className="rounded-full bg-primary/10 px-3 py-1 text-[10px] font-medium text-primary">
-                    #1 in area
-                  </div>
-                </div>
-                <div className="mt-3 grid grid-cols-4 gap-2">
-                  {["Directions", "Call", "Website", "Share"].map((label) => (
-                    <div key={label} className="rounded-lg border border-border bg-background/50 py-2 text-center text-[9px] text-muted-foreground transition-colors hover:bg-card hover:text-foreground cursor-default">
-                      {label}
-                    </div>
-                  ))}
-                </div>
-              </div>
+            <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs text-primary">
+              <span className="size-1.5 rounded-full bg-primary" />
+              Visibility Through Automation
             </div>
+          </motion.div>
 
-            <div className="flex flex-col gap-5">
-              <div className="overflow-hidden rounded-2xl border border-border bg-card/40 transition-all duration-500 hover:border-primary/30">
-                <div className="flex items-center gap-3 border-b border-border px-5 py-3">
-                  <MessageCircle className="size-4 text-primary" />
-                  <span className="text-xs text-muted-foreground">WhatsApp — Auto-Reply Active</span>
-                </div>
-                <div className="p-5">
-                  <div className="rounded-xl bg-[#0e1d1d] p-3">
-                    <div className="mb-3 flex items-center gap-2.5 border-b border-border/40 pb-2.5">
-                      <div className="flex size-7 items-center justify-center rounded-full bg-primary/20 text-[10px] font-semibold text-primary">B</div>
-                      <div className="flex-1">
-                        <div className="text-xs font-medium">Bloom Salon</div>
-                        <div className="flex items-center gap-1 text-[9px] text-muted-foreground">
-                          <span className="size-1.5 rounded-full bg-[oklch(0.6_0.2_145)]" />
-                          Online
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.15, ease: [0.25, 0.1, 0.25, 1] }}
+            className="mx-auto max-w-4xl text-center text-[clamp(2.5rem,6vw,4.5rem)] font-semibold leading-[1.08] tracking-tight"
+          >
+            Get More Customers
+            <br />
+            <span className="text-primary">From Google</span>
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
+            className="mx-auto mt-5 max-w-xl text-center text-base leading-relaxed text-muted-foreground md:text-lg"
+          >
+            We help local businesses improve visibility, automate customer replies, and grow online.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
+            className="mt-9 flex flex-wrap items-center justify-center gap-3"
+          >
+            <a
+              href="#pricing"
+              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-primary px-7 py-3.5 text-sm font-medium text-primary-foreground transition-all hover:brightness-110"
+            >
+              <span className="relative z-10">See Plans</span>
+              <span className="relative z-10 inline-block transition-transform duration-300 group-hover:translate-x-0.5">→</span>
+              <motion.div
+                className="absolute inset-0 bg-white/15"
+                initial={{ x: "-100%" }}
+                whileHover={{ x: "100%" }}
+                transition={{ duration: 0.4 }}
+              />
+            </a>
+            <a
+              href="#contact"
+              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-border px-7 py-3.5 text-sm font-medium text-foreground transition-all hover:bg-card"
+            >
+              Free Audit
+            </a>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.45, ease: [0.25, 0.1, 0.25, 1] }}
+            className="mx-auto mt-20 max-w-5xl"
+          >
+            <div className="grid gap-5 md:grid-cols-2">
+              <ParallaxRotate className="[perspective:1000px]">
+                <div className="overflow-hidden rounded-2xl border border-border bg-card/40 transition-all duration-500 hover:border-primary/30">
+                  <div className="flex items-center gap-3 border-b border-border px-5 py-3">
+                    <MapPin className="size-4 text-primary" />
+                    <span className="text-xs text-muted-foreground">Google Maps — Real Business Listing</span>
+                  </div>
+                  <div className="p-5">
+                    <div className="relative overflow-hidden rounded-xl">
+                      <img
+                        src="https://images.unsplash.com/photo-1559305616-3f99cd43e353?w=600&h=400&fit=crop&auto=format"
+                        alt="Google Maps on smartphone showing local business"
+                        className="w-full object-cover"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
+                    </div>
+                    <div className="mt-4 flex items-center justify-between">
+                      <div>
+                        <div className="text-sm font-medium">Bloom Salon & Spa</div>
+                        <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                          <MapPin className="size-3" />
+                          0.4 km · <span className="text-[oklch(0.6_0.2_145)]">Open</span> · 4.9★
                         </div>
                       </div>
+                      <div className="rounded-full bg-primary/10 px-3 py-1 text-[10px] font-medium text-primary">
+                        #1 in area
+                      </div>
                     </div>
-                    <div className="space-y-2">
-                      <ChatBubble side="left">Hi, do you have an appointment today at 5 pm?</ChatBubble>
-                      <ChatBubble side="right" auto>Hi Riya! Yes, 5 pm is available with Anjali. Should I confirm?</ChatBubble>
-                      <ChatBubble side="left">Yes please, confirm it.</ChatBubble>
-                      <ChatBubble side="right" auto>Booked! See you at 5 pm. 😊</ChatBubble>
+                    <div className="mt-3 grid grid-cols-4 gap-2">
+                      {["Directions", "Call", "Website", "Share"].map((label) => (
+                        <div key={label} className="rounded-lg border border-border bg-background/50 py-2 text-center text-[9px] text-muted-foreground transition-colors hover:bg-card hover:text-foreground cursor-default">
+                          {label}
+                        </div>
+                      ))}
                     </div>
-                  </div>
-                  <div className="mt-2 text-center text-[9px] uppercase tracking-wider text-muted-foreground">
-                    Auto-replied in under 1 second
                   </div>
                 </div>
-              </div>
+              </ParallaxRotate>
 
-              <div className="flex items-center gap-3 rounded-2xl border border-border bg-card/40 p-4 transition-all duration-500 hover:border-primary/30">
-                <div className="size-12 shrink-0 overflow-hidden rounded-full border-2 border-primary/20">
-                  <img
-                    src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=100&h=100&fit=crop&auto=format"
-                    alt="Team member"
-                    className="size-full object-cover"
-                    loading="lazy"
-                  />
-                </div>
-                <div>
-                  <div className="flex items-center gap-1 text-sm">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <Star key={i} className="size-3.5 fill-[oklch(0.72_0.18_70)] text-[oklch(0.72_0.18_70)]" />
-                    ))}
+              <div className="flex flex-col gap-5">
+                <div className="overflow-hidden rounded-2xl border border-border bg-card/40 transition-all duration-500 hover:border-primary/30">
+                  <div className="flex items-center gap-3 border-b border-border px-5 py-3">
+                    <MessageCircle className="size-4 text-primary" />
+                    <span className="text-xs text-muted-foreground">WhatsApp — Auto-Reply Active</span>
                   </div>
-                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-                    "Reflect transformed how we manage our online presence. Bookings tripled."
-                  </p>
-                  <p className="mt-0.5 text-[10px] font-medium text-foreground">— Ananya R., Bloom Salon</p>
+                  <div className="p-5">
+                    <div className="rounded-xl bg-[#0e1d1d] p-3">
+                      <div className="mb-3 flex items-center gap-2.5 border-b border-border/40 pb-2.5">
+                        <div className="flex size-7 items-center justify-center rounded-full bg-primary/20 text-[10px] font-semibold text-primary">B</div>
+                        <div className="flex-1">
+                          <div className="text-xs font-medium">Bloom Salon</div>
+                          <div className="flex items-center gap-1 text-[9px] text-muted-foreground">
+                            <span className="size-1.5 rounded-full bg-[oklch(0.6_0.2_145)]" />
+                            Online
+                          </div>
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <ChatBubble side="left">Hi, do you have an appointment today at 5 pm?</ChatBubble>
+                        <ChatBubble side="right" auto>Hi Riya! Yes, 5 pm is available with Anjali. Should I confirm?</ChatBubble>
+                        <ChatBubble side="left">Yes please, confirm it.</ChatBubble>
+                        <ChatBubble side="right" auto>Booked! See you at 5 pm. 😊</ChatBubble>
+                      </div>
+                    </div>
+                    <div className="mt-2 text-center text-[9px] uppercase tracking-wider text-muted-foreground">
+                      Auto-replied in under 1 second
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3 rounded-2xl border border-border bg-card/40 p-4 transition-all duration-500 hover:border-primary/30">
+                  <div className="size-12 shrink-0 overflow-hidden rounded-full border-2 border-primary/20">
+                    <img
+                      src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=100&h=100&fit=crop&auto=format"
+                      alt="Team member"
+                      className="size-full object-cover"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-1 text-sm">
+                      {Array.from({ length: 5 }).map((_, i) => (
+                        <Star key={i} className="size-3.5 fill-[oklch(0.72_0.18_70)] text-[oklch(0.72_0.18_70)]" />
+                      ))}
+                    </div>
+                    <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                      "Reflect transformed how we manage our online presence. Bookings tripled."
+                    </p>
+                    <p className="mt-0.5 text-[10px] font-medium text-foreground">— Ananya R., Bloom Salon</p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.7 }}
-          className="mt-10 flex flex-wrap items-center justify-center gap-8 text-xs text-muted-foreground"
-        >
-          {[
-            { icon: <Star className="size-3.5 fill-current text-[oklch(0.72_0.18_70)]" />, text: "4.9 Average Rating" },
-            { icon: <Check className="size-3.5 text-primary" />, text: "480+ Businesses" },
-            { icon: <Check className="size-3.5 text-primary" />, text: "7 Day Setup" },
-          ].map(({ icon, text }) => (
-            <span key={text} className="flex items-center gap-1.5">
-              {icon}
-              {text}
-            </span>
-          ))}
-        </motion.div>
-      </div>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.7 }}
+            className="mt-10 flex flex-wrap items-center justify-center gap-8 text-xs text-muted-foreground"
+          >
+            {[
+              { icon: <Star className="size-3.5 fill-current text-[oklch(0.72_0.18_70)]" />, text: "4.9 Average Rating" },
+              { icon: <Check className="size-3.5 text-primary" />, text: "480+ Businesses" },
+              { icon: <Check className="size-3.5 text-primary" />, text: "7 Day Setup" },
+            ].map(({ icon, text }) => (
+              <span key={text} className="flex items-center gap-1.5">
+                {icon}
+                {text}
+              </span>
+            ))}
+          </motion.div>
+        </div>
+      </motion.div>
     </section>
   );
 }

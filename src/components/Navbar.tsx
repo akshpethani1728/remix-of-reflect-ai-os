@@ -1,7 +1,8 @@
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Moon, Sun } from "lucide-react";
 import { Logo } from "./Logo";
+import { useTheme } from "./ThemeProvider";
 
 const links = [
   { label: "Services", href: "#services" },
@@ -13,6 +14,7 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const { scrollY } = useScroll();
+  const { theme, toggle } = useTheme();
 
   useMotionValueEvent(scrollY, "change", (y) => {
     setScrolled(y > 60);
@@ -28,11 +30,13 @@ export function Navbar() {
       <motion.nav
         animate={{
           backgroundColor: scrolled
-            ? "oklch(0.09 0.01 260 / 0.75)"
+            ? "var(--color-background)"
             : "oklch(1 0 0 / 0.035)",
-          backdropFilter: scrolled ? "blur(36px) saturate(150%)" : "blur(24px) saturate(120%)",
+          backdropFilter: scrolled
+            ? "blur(36px) saturate(150%)"
+            : "blur(24px) saturate(120%)",
           borderColor: scrolled
-            ? "oklch(1 0 0 / 0.08)"
+            ? "var(--color-border)"
             : "oklch(1 0 0 / 0.06)",
         }}
         transition={{ duration: 0.3 }}
@@ -57,6 +61,13 @@ export function Navbar() {
         </ul>
 
         <div className="flex items-center gap-2">
+          <button
+            onClick={toggle}
+            className="flex size-9 items-center justify-center rounded-lg border border-border text-muted-foreground transition-colors hover:bg-card hover:text-foreground"
+            aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            {theme === "dark" ? <Sun className="size-4" /> : <Moon className="size-4" />}
+          </button>
           <a
             href="#contact"
             className="group relative hidden overflow-hidden rounded-full bg-primary px-5 py-2 text-xs font-medium text-primary-foreground transition-all md:inline-flex items-center gap-1.5"
@@ -72,7 +83,7 @@ export function Navbar() {
           </a>
           <button
             onClick={() => setOpen(!open)}
-            className="flex size-9 items-center justify-center rounded-lg border border-border text-muted-foreground transition-colors hover:text-foreground md:hidden"
+            className="flex size-9 items-center justify-center rounded-lg border border-border text-muted-foreground transition-colors hover:bg-card hover:text-foreground md:hidden"
             aria-label="Menu"
           >
             {open ? <X className="size-4" /> : <Menu className="size-4" />}

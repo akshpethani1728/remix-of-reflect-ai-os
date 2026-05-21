@@ -36,6 +36,29 @@
 
 :root {
   --radius: 0.875rem;
+  --background: oklch(0.97 0.005 270);
+  --foreground: oklch(0.15 0.02 260);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.15 0.02 260);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.15 0.02 260);
+  --primary: oklch(0.55 0.18 230);
+  --primary-foreground: oklch(0.97 0.005 270);
+  --secondary: oklch(0.92 0.01 270);
+  --secondary-foreground: oklch(0.15 0.02 260);
+  --muted: oklch(0.94 0.01 270);
+  --muted-foreground: oklch(0.55 0.02 260);
+  --accent: oklch(0.9 0.01 270);
+  --accent-foreground: oklch(0.15 0.02 260);
+  --destructive: oklch(0.62 0.22 25);
+  --destructive-foreground: oklch(0.97 0.005 270);
+  --border: oklch(0 0 0 / 0.08);
+  --input: oklch(0.92 0.01 270);
+  --ring: oklch(0.55 0.18 230);
+  --grid-color: oklch(0 0 0 / 0.05);
+}
+
+.dark {
   --background: oklch(0.09 0.01 260);
   --foreground: oklch(0.95 0.005 260);
   --card: oklch(0.14 0.01 260);
@@ -55,6 +78,7 @@
   --border: oklch(1 0 0 / 0.06);
   --input: oklch(0.18 0.01 260);
   --ring: oklch(0.62 0.2 230);
+  --grid-color: oklch(1 0 0 / 0.025);
 }
 
 html.lenis {
@@ -80,6 +104,7 @@ html.lenis {
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   h1, h2, h3, h4 {
@@ -87,6 +112,10 @@ html.lenis {
   }
 
   ::selection {
+    background: oklch(0.55 0.18 230 / 0.3);
+    color: oklch(0.97 0.005 270);
+  }
+  .dark ::selection {
     background: oklch(0.62 0.2 230 / 0.35);
     color: oklch(0.95 0.005 260);
   }
@@ -94,24 +123,29 @@ html.lenis {
 
 @layer utilities {
   .glass {
-    background: oklch(1 0 0 / 0.04);
+    background: oklch(1 0 0 / 0.5);
     backdrop-filter: blur(24px) saturate(120%);
     -webkit-backdrop-filter: blur(24px) saturate(120%);
+    border: 1px solid oklch(0 0 0 / 0.08);
+  }
+  .dark .glass {
+    background: oklch(1 0 0 / 0.04);
     border: 1px solid oklch(1 0 0 / 0.06);
   }
 
   .glass-strong {
-    background: oklch(1 0 0 / 0.08);
+    background: oklch(1 0 0 / 0.7);
     backdrop-filter: blur(32px) saturate(140%);
     -webkit-backdrop-filter: blur(32px) saturate(140%);
+    border: 1px solid oklch(0 0 0 / 0.1);
+  }
+  .dark .glass-strong {
+    background: oklch(1 0 0 / 0.08);
     border: 1px solid oklch(1 0 0 / 0.1);
   }
 
-  .grid-bg {
-    background-image:
-      linear-gradient(oklch(1 0 0 / 0.02) 1px, transparent 1px),
-      linear-gradient(90deg, oklch(1 0 0 / 0.02) 1px, transparent 1px);
-    background-size: 48px 48px;
+  .theme-transition {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
   }
 
   @keyframes spin-slow {
@@ -121,27 +155,35 @@ html.lenis {
     animation: spin-slow 20s linear infinite;
   }
 
-  @keyframes drift {
-    0% { transform: translate(0, 0); }
-    25% { transform: translate(5%, -8%); }
-    50% { transform: translate(-3%, 5%); }
-    75% { transform: translate(8%, -3%); }
-    100% { transform: translate(0, 0); }
-  }
-
   @keyframes float-3d {
     0%, 100% { transform: translateY(0) rotateX(0deg); }
-    50% { transform: translateY(-16px) rotateX(4deg); }
+    50% { transform: translateY(-12px) rotateX(3deg); }
   }
   .animate-float-3d {
     animation: float-3d 5s ease-in-out infinite;
   }
 
   @keyframes pulse-soft {
-    0%, 100% { opacity: 0.4; transform: scale(1); }
-    50% { opacity: 0.7; transform: scale(1.03); }
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.7; }
   }
   .animate-pulse-soft {
     animation: pulse-soft 3s ease-in-out infinite;
+  }
+
+  @keyframes rotate-ring {
+    from { transform: rotateX(60deg) rotateZ(0deg); }
+    to { transform: rotateX(60deg) rotateZ(360deg); }
+  }
+  .animate-rotate-ring {
+    animation: rotate-ring 12s linear infinite;
+  }
+
+  @keyframes rotate-ring-reverse {
+    from { transform: rotateX(60deg) rotateZ(0deg); }
+    to { transform: rotateX(60deg) rotateZ(-360deg); }
+  }
+  .animate-rotate-ring-reverse {
+    animation: rotate-ring-reverse 15s linear infinite;
   }
 }
