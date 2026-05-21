@@ -62,32 +62,9 @@ const plans: Plan[] = [
 export function Pricing() {
   const [yearly, setYearly] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
-  const [paymentSuccess, setPaymentSuccess] = useState(false);
-  const [paymentId, setPaymentId] = useState("");
 
-  // Demo user data - in production, get this from form
-  const userData: UserData = {
-    name: "Demo User",
-    email: "demo@example.com",
-    phone: "919999999999",
-  };
-
-  const handlePlanSelect = (plan: Plan) => {
-    setSelectedPlan(plan);
-  };
-
-  const handlePaymentSuccess = (id: string) => {
-    setPaymentId(id);
-    setPaymentSuccess(true);
-  };
-
-  const handleCloseModal = () => {
-    setSelectedPlan(null);
-    if (paymentSuccess) {
-      setPaymentSuccess(false);
-      setPaymentId("");
-    }
-  };
+  const handlePlanSelect = (plan: Plan) => setSelectedPlan(plan);
+  const handleCloseModal = () => setSelectedPlan(null);
 
   return (
     <section id="pricing" className="relative py-32">
