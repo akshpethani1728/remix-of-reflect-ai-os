@@ -115,32 +115,13 @@ export function Pricing() {
       </div>
 
       {/* Payment Modal */}
-      {selectedPlan && !paymentSuccess && (
+      {selectedPlan && (
         <PaymentModal
           isOpen={!!selectedPlan}
           onClose={handleCloseModal}
           plan={selectedPlan}
-          userData={userData}
+          yearly={yearly}
         />
-      )}
-
-      {/* Payment Success */}
-      {paymentSuccess && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            className="glass-strong m-4 max-w-md rounded-3xl p-8"
-          >
-            <PaymentSuccess paymentId={paymentId} planName={selectedPlan?.name || ""} />
-            <button
-              onClick={handleCloseModal}
-              className="mt-6 w-full rounded-full bg-foreground px-6 py-3 text-center text-sm font-medium text-background"
-            >
-              Close
-            </button>
-          </motion.div>
-        </div>
       )}
     </section>
   );
