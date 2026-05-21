@@ -1,14 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-async function createRazorpayOrder(amount: number, currency: string, planName: string) {
-  const keyId = process.env.RAZORPAY_KEY_ID || "";
-  const keySecret = process.env.RAZORPAY_KEY_SECRET || "";
+// Razorpay credentials - replace with your actual keys
+const RAZORPAY_KEY_ID = "rzp_live_Srkdw366RmtUhU";
+const RAZORPAY_KEY_SECRET = "OSCYg0k3sshgGAQ38H20F08P";
 
+async function createRazorpayOrder(amount: number, currency: string, planName: string) {
   const response = await fetch("https://api.razorpay.com/v1/orders", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Basic ${btoa(`${keyId}:${keySecret}`)}`,
+      Authorization: `Basic ${btoa(`${RAZORPAY_KEY_ID}:${RAZORPAY_KEY_SECRET}`)}`,
     },
     body: JSON.stringify({
       amount,
@@ -24,7 +25,7 @@ async function createRazorpayOrder(amount: number, currency: string, planName: s
   }
 
   const data = await response.json();
-  return { orderId: data.id, keyId, amount: data.amount, currency: data.currency };
+  return { orderId: data.id, keyId: RAZORPAY_KEY_ID, amount: data.amount, currency: data.currency };
 }
 
 export const Route = createFileRoute("/api/create-order")({

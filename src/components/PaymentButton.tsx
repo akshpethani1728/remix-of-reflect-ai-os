@@ -85,31 +85,24 @@ export function PaymentButton({ amount, planName, userData, onSuccess, onFailure
   };
 
   const createOrder = async () => {
-    // Create order via Razorpay API
-    // In production, call your server endpoint that creates order securely
-    const response = await fetch("https://api.razorpay.com/v1/orders", {
+    // Create order via our server API
+    const response = await fetch("/api/create-order", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Basic ${btoa(`${RAZORPAY_KEY_ID}:${import.meta.env.VITE_RAZORPAY_KEY_SECRET || "your_secret"}`)}`,
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         amount: amount * 100,
         currency: "INR",
-        receipt: `receipt_${Date.now()}`,
-        notes: {
-          plan: planName,
-          customer: userData.name,
-        },
+        planName,
       }),
     });
 
     if (!response.ok) {
-      throw new Error("Failed to create order");
+      const err = await response.json();
+      throw new Error(err.error || "Failed to create order");
     }
 
     const data = await response.json();
-    return data.id;
+    return data.orderId;
   };
 
   const initiatePayment = async () => {
@@ -117,10 +110,13 @@ export function PaymentButton({ amount, planName, userData, onSuccess, onFailure
     setError(null);
 
     try {
+      console.log("Loading Razorpay...");
       await loadRazorpay();
+      console.log("Razorpay loaded, creating order...");
 
       // Create order
       const orderId = await createOrder();
+      console.log("Order created:", orderId);
 
       // Open Razorpay checkout
       const razorpayOptions: RazorpayOptions = {
@@ -130,7 +126,22 @@ export function PaymentButton({ amount, planName, userData, onSuccess, onFailure
         name: "Reflect",
         description: `${planName} Plan - Monthly`,
         order_id: orderId,
-        handler: (response) => {
+        handler: async (response) => {
+          // Verify payment on server
+          try {
+            await fetch("/api/verify-payment", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_signature: response.razorpay_signature,
+                planName,
+              }),
+            });
+          } catch (e) {
+            console.error("Payment verification failed:", e);
+          }
           onSuccess?.(response.razorpay_payment_id, response.razorpay_order_id);
         },
         prefill: {
@@ -152,7 +163,8 @@ export function PaymentButton({ amount, planName, userData, onSuccess, onFailure
       const rzp = new window.Razorpay(razorpayOptions);
       rzp.open();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Payment failed");
+      console.error("Payment error:", err);
+      setError(err instanceof Error ? err.message : "Payment failed. Please try again.");
       setLoading(false);
     }
   };

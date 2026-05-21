@@ -1,5 +1,30 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { createHmac } from "crypto";
+
+// Razorpay credentials - replace with your actual keys
+const RAZORPAY_KEY_SECRET = "OSCYg0k3sshgGAQ38H20F08P";
+
+async function verifyPaymentSignature(orderId: string, paymentId: string, signature: string): Promise<boolean> {
+  const payload = `${orderId}|${paymentId}`;
+
+  const encoder = new TextEncoder();
+  const keyData = encoder.encode(RAZORPAY_KEY_SECRET);
+  const messageData = encoder.encode(payload);
+
+  const cryptoKey = await crypto.subtle.importKey(
+    "raw",
+    keyData,
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"]
+  );
+
+  const signatureBuffer = await crypto.subtle.sign("HMAC", cryptoKey, messageData);
+  const expectedSignature = Array.from(new Uint8Array(signatureBuffer))
+    .map(b => b.toString(16).padStart(2, "0"))
+    .join("");
+
+  return expectedSignature === signature;
+}
 
 export const Route = createFileRoute("/api/verify-payment")({
   server: {
@@ -13,12 +38,9 @@ export const Route = createFileRoute("/api/verify-payment")({
             return Response.json({ error: "Missing payment verification details" }, { status: 400 });
           }
 
-          const keySecret = process.env.RAZORPAY_KEY_SECRET || "";
-          const expected = createHmac("sha256", keySecret)
-            .update(`${razorpay_order_id}|${razorpay_payment_id}`)
-            .digest("hex");
+          const isValid = await verifyPaymentSignature(razorpay_order_id, razorpay_payment_id, razorpay_signature);
 
-          if (expected !== razorpay_signature) {
+          if (!isValid) {
             return Response.json({ error: "Invalid signature" }, { status: 400 });
           }
 
