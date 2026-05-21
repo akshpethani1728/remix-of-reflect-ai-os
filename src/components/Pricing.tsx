@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { Check } from "lucide-react";
 import { SectionDivider, SectionHeader } from "./Services";
-import { PaymentModal, PaymentSuccess } from "./PaymentButton";
+import { PaymentModal } from "./PaymentButton";
 
 type Plan = {
   name: string;
@@ -12,12 +12,6 @@ type Plan = {
   features: string[];
   featured?: boolean;
 };
-
-interface UserData {
-  name: string;
-  email: string;
-  phone: string;
-}
 
 const plans: Plan[] = [
   {
