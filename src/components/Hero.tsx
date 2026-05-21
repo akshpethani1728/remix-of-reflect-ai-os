@@ -14,6 +14,10 @@ export function Hero() {
         className="pointer-events-none absolute left-1/4 top-1/4 -z-10 size-[500px] rounded-full bg-[radial-gradient(circle,oklch(0.62_0.2_230/0.04),transparent_65%)] blur-3xl"
       />
 
+      <div aria-hidden className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+        <Hero3D />
+      </div>
+
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
