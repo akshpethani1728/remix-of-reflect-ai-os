@@ -1,29 +1,25 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-// Razorpay credentials - replace with your actual keys
-const RAZORPAY_KEY_SECRET = "OSCYg0k3sshgGAQ38H20F08P";
-
-async function verifyPaymentSignature(orderId: string, paymentId: string, signature: string): Promise<boolean> {
+async function verifyPaymentSignature(
+  orderId: string,
+  paymentId: string,
+  signature: string,
+  secret: string
+): Promise<boolean> {
   const payload = `${orderId}|${paymentId}`;
-
   const encoder = new TextEncoder();
-  const keyData = encoder.encode(RAZORPAY_KEY_SECRET);
-  const messageData = encoder.encode(payload);
-
   const cryptoKey = await crypto.subtle.importKey(
     "raw",
-    keyData,
+    encoder.encode(secret),
     { name: "HMAC", hash: "SHA-256" },
     false,
     ["sign"]
   );
-
-  const signatureBuffer = await crypto.subtle.sign("HMAC", cryptoKey, messageData);
-  const expectedSignature = Array.from(new Uint8Array(signatureBuffer))
-    .map(b => b.toString(16).padStart(2, "0"))
+  const sigBuf = await crypto.subtle.sign("HMAC", cryptoKey, encoder.encode(payload));
+  const expected = Array.from(new Uint8Array(sigBuf))
+    .map((b) => b.toString(16).padStart(2, "0"))
     .join("");
-
-  return expectedSignature === signature;
+  return expected === signature;
 }
 
 export const Route = createFileRoute("/api/verify-payment")({
@@ -31,6 +27,11 @@ export const Route = createFileRoute("/api/verify-payment")({
     handlers: {
       POST: async ({ request }) => {
         try {
+          const secret = process.env.RAZORPAY_KEY_SECRET;
+          if (!secret) {
+            return Response.json({ error: "Payment gateway not configured" }, { status: 500 });
+          }
+
           const body = await request.json();
           const { razorpay_payment_id, razorpay_order_id, razorpay_signature, planName } = body;
 
@@ -38,7 +39,12 @@ export const Route = createFileRoute("/api/verify-payment")({
             return Response.json({ error: "Missing payment verification details" }, { status: 400 });
           }
 
-          const isValid = await verifyPaymentSignature(razorpay_order_id, razorpay_payment_id, razorpay_signature);
+          const isValid = await verifyPaymentSignature(
+            razorpay_order_id,
+            razorpay_payment_id,
+            razorpay_signature,
+            secret
+          );
 
           if (!isValid) {
             return Response.json({ error: "Invalid signature" }, { status: 400 });

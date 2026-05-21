@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { Check } from "lucide-react";
 import { SectionDivider, SectionHeader } from "./Services";
-import { PaymentModal, PaymentSuccess } from "./PaymentButton";
+import { PaymentModal } from "./PaymentButton";
 
 type Plan = {
   name: string;
@@ -12,12 +12,6 @@ type Plan = {
   features: string[];
   featured?: boolean;
 };
-
-interface UserData {
-  name: string;
-  email: string;
-  phone: string;
-}
 
 const plans: Plan[] = [
   {
@@ -62,32 +56,9 @@ const plans: Plan[] = [
 export function Pricing() {
   const [yearly, setYearly] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
-  const [paymentSuccess, setPaymentSuccess] = useState(false);
-  const [paymentId, setPaymentId] = useState("");
 
-  // Demo user data - in production, get this from form
-  const userData: UserData = {
-    name: "Demo User",
-    email: "demo@example.com",
-    phone: "919999999999",
-  };
-
-  const handlePlanSelect = (plan: Plan) => {
-    setSelectedPlan(plan);
-  };
-
-  const handlePaymentSuccess = (id: string) => {
-    setPaymentId(id);
-    setPaymentSuccess(true);
-  };
-
-  const handleCloseModal = () => {
-    setSelectedPlan(null);
-    if (paymentSuccess) {
-      setPaymentSuccess(false);
-      setPaymentId("");
-    }
-  };
+  const handlePlanSelect = (plan: Plan) => setSelectedPlan(plan);
+  const handleCloseModal = () => setSelectedPlan(null);
 
   return (
     <section id="pricing" className="relative py-32">
@@ -138,32 +109,13 @@ export function Pricing() {
       </div>
 
       {/* Payment Modal */}
-      {selectedPlan && !paymentSuccess && (
+      {selectedPlan && (
         <PaymentModal
           isOpen={!!selectedPlan}
           onClose={handleCloseModal}
           plan={selectedPlan}
-          userData={userData}
+          yearly={yearly}
         />
-      )}
-
-      {/* Payment Success */}
-      {paymentSuccess && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            className="glass-strong m-4 max-w-md rounded-3xl p-8"
-          >
-            <PaymentSuccess paymentId={paymentId} planName={selectedPlan?.name || ""} />
-            <button
-              onClick={handleCloseModal}
-              className="mt-6 w-full rounded-full bg-foreground px-6 py-3 text-center text-sm font-medium text-background"
-            >
-              Close
-            </button>
-          </motion.div>
-        </div>
       )}
     </section>
   );
