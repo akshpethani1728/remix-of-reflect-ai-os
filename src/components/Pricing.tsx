@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { Check } from "lucide-react";
 import { SectionDivider, SectionHeader } from "./Services";
+import { PaymentModal, PaymentSuccess } from "./PaymentButton";
 
 type Plan = {
   name: string;
@@ -11,6 +12,12 @@ type Plan = {
   features: string[];
   featured?: boolean;
 };
+
+interface UserData {
+  name: string;
+  email: string;
+  phone: string;
+}
 
 const plans: Plan[] = [
   {
@@ -54,6 +61,33 @@ const plans: Plan[] = [
 
 export function Pricing() {
   const [yearly, setYearly] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
+  const [paymentId, setPaymentId] = useState("");
+
+  // Demo user data - in production, get this from form
+  const userData: UserData = {
+    name: "Demo User",
+    email: "demo@example.com",
+    phone: "919999999999",
+  };
+
+  const handlePlanSelect = (plan: Plan) => {
+    setSelectedPlan(plan);
+  };
+
+  const handlePaymentSuccess = (id: string) => {
+    setPaymentId(id);
+    setPaymentSuccess(true);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedPlan(null);
+    if (paymentSuccess) {
+      setPaymentSuccess(false);
+      setPaymentId("");
+    }
+  };
 
   return (
     <section id="pricing" className="relative py-32">
@@ -94,7 +128,7 @@ export function Pricing() {
 
         <div className="mt-14 grid gap-6 lg:grid-cols-3">
           {plans.map((p, i) => (
-            <PlanCard key={p.name} plan={p} yearly={yearly} i={i} />
+            <PlanCard key={p.name} plan={p} yearly={yearly} i={i} onSelect={handlePlanSelect} />
           ))}
         </div>
 
@@ -102,11 +136,40 @@ export function Pricing() {
           All plans include onboarding within 7 days and a dedicated WhatsApp support line.
         </p>
       </div>
+
+      {/* Payment Modal */}
+      {selectedPlan && !paymentSuccess && (
+        <PaymentModal
+          isOpen={!!selectedPlan}
+          onClose={handleCloseModal}
+          plan={selectedPlan}
+          userData={userData}
+        />
+      )}
+
+      {/* Payment Success */}
+      {paymentSuccess && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="glass-strong m-4 max-w-md rounded-3xl p-8"
+          >
+            <PaymentSuccess paymentId={paymentId} planName={selectedPlan?.name || ""} />
+            <button
+              onClick={handleCloseModal}
+              className="mt-6 w-full rounded-full bg-foreground px-6 py-3 text-center text-sm font-medium text-background"
+            >
+              Close
+            </button>
+          </motion.div>
+        </div>
+      )}
     </section>
   );
 }
 
-function PlanCard({ plan, yearly, i }: { plan: Plan; yearly: boolean; i: number }) {
+function PlanCard({ plan, yearly, i, onSelect }: { plan: Plan; yearly: boolean; i: number; onSelect: (plan: Plan) => void }) {
   const price = yearly ? plan.yearly : plan.monthly;
   const period = yearly ? "/year" : "/mo";
 
@@ -189,18 +252,18 @@ function PlanCard({ plan, yearly, i }: { plan: Plan; yearly: boolean; i: number 
         <span className="text-sm text-muted-foreground">{period}</span>
       </motion.div>
 
-      <motion.a
-        href="#contact"
+      <motion.button
+        onClick={() => onSelect(plan)}
         whileHover={{ scale: 1.03, boxShadow: "0 10px 40px -15px oklch(0.68 0.16 162/0.5)" }}
         whileTap={{ scale: 0.98 }}
-        className={`mt-7 block rounded-full px-5 py-3 text-center text-sm font-medium transition-all ${
+        className={`mt-7 w-full rounded-full px-5 py-3 text-center text-sm font-medium transition-all ${
           plan.featured
             ? "bg-gradient-to-r from-primary to-accent text-background shadow-lg shadow-primary/30"
             : "bg-foreground text-background"
         }`}
       >
         {plan.featured ? "Start with Pro" : `Choose ${plan.name.toLowerCase()}`}
-      </motion.a>
+      </motion.button>
 
       <div className="my-6 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
 
