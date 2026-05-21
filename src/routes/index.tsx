@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteBackground } from "@/components/SiteBackground";
+import { SmoothScroll } from "@/components/SmoothScroll";
+import { CustomCursor } from "@/components/CustomCursor";
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { Services } from "@/components/Services";
@@ -26,16 +28,19 @@ function Index() {
   return (
     <>
       <SiteBackground />
-      <Navbar />
-      <main className="relative">
-        <Hero />
-        <Services />
-        <RealVisuals />
-        <Pricing />
-        <Testimonials />
-        <Contact />
-      </main>
-      <Footer />
+      <SmoothScroll>
+        <CustomCursor />
+        <Navbar />
+        <main className="relative">
+          <Hero />
+          <Services />
+          <RealVisuals />
+          <Pricing />
+          <Testimonials />
+          <Contact />
+        </main>
+        <Footer />
+      </SmoothScroll>
     </>
   );
 }
