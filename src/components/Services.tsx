@@ -1,126 +1,84 @@
 import { motion } from "framer-motion";
-import { PhoneCall, Star } from "lucide-react";
+import { Search, MessageCircle, Camera, PhoneCall, Star, BarChart3 } from "lucide-react";
 import type { ReactNode } from "react";
-import { GBPIcon, WhatsAppIcon, InstagramIcon, GoogleIcon } from "./BrandIcons";
 
 const services = [
   {
     title: "Google Business Profile",
-    desc: "Rank higher on Google Maps & local search. Show up first when customers nearby search.",
-    icon: <GBPIcon className="size-7" />,
-    featured: true,
-    badge: "Most popular",
+    desc: "Rank higher on Google Maps & local search.",
+    icon: <Search className="size-5" />,
   },
   {
     title: "WhatsApp Automation",
-    desc: "Reply to every customer in seconds, 24/7 — even when you're closed.",
-    icon: <WhatsAppIcon className="size-7" />,
+    desc: "Reply to customers automatically, 24/7.",
+    icon: <MessageCircle className="size-5" />,
   },
   {
     title: "Instagram DM Automation",
-    desc: "Turn comments & DMs into booked appointments automatically.",
-    icon: <InstagramIcon className="size-7" />,
+    desc: "Turn comments & DMs into bookings.",
+    icon: <Camera className="size-5" />,
   },
   {
     title: "AI Voice Call Agent",
-    desc: "Never miss a call. Our AI answers, books, and follows up like a real receptionist.",
-    icon: <PhoneCall className="size-6 text-primary" />,
+    desc: "Never miss a call — AI answers like a receptionist.",
+    icon: <PhoneCall className="size-5" />,
   },
   {
     title: "Review Management",
-    desc: "Auto-request Google reviews from happy customers. Build a 4.9★ reputation.",
-    icon: <Star className="size-6 fill-[oklch(0.72_0.18_70)] text-[oklch(0.72_0.18_70)]" />,
+    desc: "Auto-request Google reviews from happy customers.",
+    icon: <Star className="size-5" />,
   },
   {
-    title: "Google Search Visibility",
-    desc: "Get found by ready-to-buy customers searching in your area.",
-    icon: <GoogleIcon className="size-7" />,
+    title: "Google Ads Management",
+    desc: "Paid campaigns that bring ready-to-buy customers.",
+    icon: <BarChart3 className="size-5" />,
   },
 ];
 
-function Card({ title, desc, icon, i, featured, badge }: { title: string; desc: string; icon: ReactNode; i: number; featured?: boolean; badge?: string }) {
+function Card({ title, desc, icon, i }: { title: string; desc: string; icon: ReactNode; i: number }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 24, scale: 0.95 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.5, delay: i * 0.08 }}
-      whileHover={{ y: -8, scale: 1.02 }}
-      className={`group relative overflow-hidden rounded-3xl glass glow-border p-6 transition-all duration-300 hover:shadow-[0_0_60px_-15px_oklch(0.7_0.18_162/0.5)] ${
-        featured ? "ring-1 ring-primary/40" : ""
-      }`}
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.4, delay: i * 0.05 }}
+      className="group rounded-2xl border border-border bg-card/50 p-5 transition-all hover:border-primary/30 hover:bg-card"
     >
-      {/* Hover glow effect */}
-      <div className="pointer-events-none absolute -inset-px opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-        style={{ background: "radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), oklch(0.82 0.18 215 / 0.1), transparent 40%)" }}
-      />
-
-      {badge && (
-        <motion.span
-          whileHover={{ scale: 1.05 }}
-          className="absolute right-4 top-4 rounded-full bg-primary/15 px-2.5 py-1 text-[10px] font-medium text-primary"
-        >
-          {badge}
-        </motion.span>
-      )}
-      <motion.div
-        whileHover={{ scale: 1.1, rotate: 5 }}
-        className="flex size-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 shadow-inner transition-colors group-hover:from-primary/20 group-hover:to-accent/20"
-      >
+      <div className="flex size-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
         {icon}
-      </motion.div>
-      <motion.h3
-        whileHover={{ color: "oklch(0.68 0.16 162)" }}
-        className="mt-5 text-lg font-semibold transition-colors"
-      >
-        {title}
-      </motion.h3>
-      <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{desc}</p>
-
-      {/* Arrow that appears on hover */}
-      <motion.div
-        initial={{ opacity: 0, x: -10 }}
-        whileHover={{ opacity: 1, x: 0 }}
-        className="absolute bottom-6 right-6 text-primary"
-      >
-        →
-      </motion.div>
+      </div>
+      <h3 className="mt-4 text-sm font-medium">{title}</h3>
+      <p className="mt-1 text-xs text-muted-foreground">{desc}</p>
     </motion.div>
   );
 }
 
 export function Services() {
   return (
-    <section id="services" className="relative py-28">
-      <SectionDivider />
+    <section id="services" className="relative py-24">
       <div className="container mx-auto px-6">
-        <SectionHeader
-          eyebrow="What we do"
-          title={<>Everything your business needs to <span className="text-neon">be found &amp; grow</span></>}
-          subtitle="Five services, one simple goal: more customers."
-        />
-        <div className="mx-auto mt-14 grid max-w-6xl gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="mx-auto max-w-2xl text-center"
+        >
+          <div className="inline-flex items-center gap-2 rounded-full border border-border px-3 py-1 text-[10px] uppercase tracking-widest text-muted-foreground">
+            Services
+          </div>
+          <h2 className="mt-4 text-2xl font-semibold tracking-tight md:text-3xl">
+            Everything you need to grow
+          </h2>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Six services, one goal: more customers for your business.
+          </p>
+        </motion.div>
+
+        <div className="mx-auto mt-10 grid max-w-5xl gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((s, i) => <Card key={s.title} {...s} i={i} />)}
         </div>
       </div>
     </section>
-  );
-}
-
-export function SectionHeader({ eyebrow, title, subtitle }: { eyebrow: string; title: React.ReactNode; subtitle?: string }) {
-  return (
-    <div className="mx-auto max-w-3xl text-center">
-      <div className="inline-flex items-center gap-2 rounded-full glass px-3 py-1 text-[11px] uppercase tracking-widest text-muted-foreground">
-        <span className="size-1 rounded-full bg-primary" /> {eyebrow}
-      </div>
-      <h2 className="mt-5 text-3xl font-semibold tracking-tight text-gradient md:text-5xl">{title}</h2>
-      {subtitle && <p className="mx-auto mt-4 max-w-xl text-base text-muted-foreground">{subtitle}</p>}
-    </div>
-  );
-}
-
-export function SectionDivider() {
-  return (
-    <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 mx-auto h-px w-[80%] bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
   );
 }

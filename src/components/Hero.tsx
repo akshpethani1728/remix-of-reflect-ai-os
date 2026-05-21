@@ -1,209 +1,208 @@
 import { motion } from "framer-motion";
-import { MagneticButton } from "./MagneticButton";
+import { MapPin, Star, Phone, Check } from "lucide-react";
 
 export function Hero() {
   return (
-    <section className="relative isolate overflow-hidden pt-36 pb-24 md:pt-44 md:pb-32">
-      {/* Enhanced ambient glows */}
-      <div aria-hidden className="pointer-events-none absolute left-1/4 top-1/4 -z-10 size-[500px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,oklch(0.78_0.18_162/0.2),transparent_70%)] blur-3xl animate-pulse" />
-      <div aria-hidden className="pointer-events-none absolute right-1/4 bottom-1/4 -z-10 size-[400px] translate-x-1/2 rounded-full bg-[radial-gradient(circle,oklch(0.72_0.18_158/0.15),transparent_70%)] blur-3xl animate-pulse" style={{ animationDelay: "1s" }} />
+    <section className="relative overflow-hidden pt-32 pb-20 md:pt-40 md:pb-28">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-0 -z-10 size-[600px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,oklch(0.65_0.18_230/0.1),transparent_65%)] blur-3xl"
+      />
 
-      {/* Floating particles */}
-      <FloatingOrbs />
-
-      <div className="container relative mx-auto px-6">
+      <div className="container mx-auto px-6">
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="mx-auto mb-7 flex justify-center"
+          transition={{ duration: 0.5 }}
+          className="mx-auto mb-6 flex justify-center"
         >
-          <motion.span
-            animate={{ y: [0, -5, 0], scale: [1, 1.02, 1] }}
-            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-            className="glass inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs text-muted-foreground"
-          >
-            <span className="size-1.5 animate-pulse rounded-full bg-primary shadow-[0_0_10px_oklch(0.82_0.18_215)]" />
-            Visibility With Automation
-          </motion.span>
+          <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/50 px-4 py-1.5 text-xs text-muted-foreground">
+            <span className="size-1.5 rounded-full bg-primary" />
+            Visibility Through Automation
+          </div>
         </motion.div>
 
         <motion.h1
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.1 }}
-          className="mx-auto max-w-4xl text-center text-4xl font-semibold leading-[1.05] tracking-tight md:text-6xl lg:text-7xl"
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="mx-auto max-w-4xl text-center text-[clamp(2.5rem,6vw,4.5rem)] font-semibold leading-[1.05] tracking-tight"
         >
-          <motion.span
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-gradient inline-block"
-          >
-            Get 10x More Calls
-          </motion.span>
-          <br />
-          <motion.span
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.35 }}
-            className="text-foreground"
-          >
-            From{" "}
-          </motion.span>
-          <motion.span
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-            className="text-neon inline-block"
-          >
-            Google Searches
-          </motion.span>
+          Get More Customers<br />
+          <span className="text-primary">From Google</span>
         </motion.h1>
 
         <motion.p
-          initial={{ opacity: 0, y: 14 }}
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.25 }}
-          className="mx-auto mt-6 max-w-xl text-center text-base text-muted-foreground md:text-lg"
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="mx-auto mt-5 max-w-xl text-center text-base text-muted-foreground md:text-lg"
         >
-          We help local businesses rank #1 on Google Maps, automate replies on WhatsApp & Instagram, and turn every inquiry into a booked customer.
+          We help local businesses improve visibility, automate customer replies, and grow online.
         </motion.p>
 
         <motion.div
-          initial={{ opacity: 0, y: 14 }}
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.4 }}
-          className="mt-9 flex flex-wrap items-center justify-center gap-3"
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="mt-8 flex flex-wrap items-center justify-center gap-3"
         >
-          <MagneticButton href="#pricing">See Pricing →</MagneticButton>
-          <MagneticButton href="#contact" variant="ghost">Free Business Audit</MagneticButton>
+          <a
+            href="#pricing"
+            className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-all hover:brightness-110"
+          >
+            See Plans
+            <span>→</span>
+          </a>
+          <a
+            href="#contact"
+            className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-medium text-foreground transition-all hover:bg-card"
+          >
+            Free Audit
+          </a>
         </motion.div>
 
-        {/* Enhanced 3D sphere with more effects */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9, rotateX: 15 }}
-          animate={{ opacity: 1, scale: 1, rotateX: 0 }}
-          transition={{ duration: 1, delay: 0.4, type: "spring" }}
-          className="relative mx-auto mt-20 flex h-[320px] w-full max-w-xl items-center justify-center md:h-[400px]"
-        >
-          <EnhancedSphere />
-        </motion.div>
-
-        {/* Floating trust badges */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.9 }}
-          className="mt-16 flex flex-wrap items-center justify-center gap-6"
+          transition={{ duration: 0.7, delay: 0.4 }}
+          className="relative mx-auto mt-16 max-w-4xl"
         >
-          <FloatingBadge icon="🏆" text="480+ Businesses" />
-          <FloatingBadge icon="⭐" text="4.9 Rating" />
-          <FloatingBadge icon="⚡" text="7 Day Setup" />
+          <div className="grid gap-4 md:grid-cols-[1.4fr_1fr]">
+            <GoogleMapsPreview />
+            <WhatsAppChatPreview />
+          </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="mt-10 flex flex-wrap items-center justify-center gap-6 text-xs text-muted-foreground"
+        >
+          <span className="flex items-center gap-1.5">
+            <Star className="size-3.5 fill-[oklch(0.72_0.18_70)] text-[oklch(0.72_0.18_70)]" />
+            4.9 Average Rating
+          </span>
+          <span className="flex items-center gap-1.5">
+            <Check className="size-3.5 text-primary" />
+            480+ Businesses
+          </span>
+          <span className="flex items-center gap-1.5">
+            <Check className="size-3.5 text-primary" />
+            7 Day Setup
+          </span>
         </motion.div>
       </div>
     </section>
   );
 }
 
-function FloatingOrbs() {
-  const orbs = [
-    { size: 8, x: "10%", y: "20%", delay: 0 },
-    { size: 6, x: "85%", y: "15%", delay: 0.5 },
-    { size: 10, x: "75%", y: "70%", delay: 1 },
-    { size: 5, x: "20%", y: "80%", delay: 1.5 },
-    { size: 7, x: "90%", y: "45%", delay: 2 },
-    { size: 4, x: "5%", y: "60%", delay: 0.8 },
-  ];
-
+function GoogleMapsPreview() {
   return (
-    <>
-      {orbs.map((orb, i) => (
-        <motion.div
-          key={i}
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{
-            opacity: [0.3, 0.6, 0.3],
-            scale: 1,
-            y: [0, -30, 0],
-            x: [0, 15, 0],
-          }}
-          transition={{
-            duration: 4 + Math.random() * 2,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: orb.delay,
-          }}
-          className="pointer-events-none absolute rounded-full bg-primary/30 blur-sm"
-          style={{
-            width: orb.size,
-            height: orb.size,
-            left: orb.x,
-            top: orb.y,
-          }}
-        />
-      ))}
-    </>
+    <div className="overflow-hidden rounded-2xl border border-border bg-card">
+      <div className="flex items-center gap-2 border-b border-border px-4 py-3">
+        <div className="flex size-2 rounded-full bg-[oklch(0.65_0.2_25)]" />
+        <div className="flex size-2 rounded-full bg-[oklch(0.6_0.15_50)]" />
+        <div className="flex size-2 rounded-full bg-[oklch(0.6_0.15_130)]" />
+        <span className="ml-2 text-xs text-muted-foreground">Google Maps</span>
+      </div>
+      <div className="p-4">
+        <div
+          className="relative h-44 overflow-hidden rounded-xl"
+          style={{ background: "linear-gradient(135deg,#1a2a2a 0%,#2a3a3a 50%,#1a2a2a 100%)" }}
+        >
+          <div
+            className="absolute inset-0 opacity-20"
+            style={{
+              backgroundImage:
+                "repeating-linear-gradient(45deg, transparent 0 18px, rgba(255,255,255,0.03) 18px 19px), repeating-linear-gradient(-45deg, transparent 0 26px, rgba(255,255,255,0.02) 26px 27px)",
+            }}
+          />
+          <div className="absolute left-0 right-0 top-[50%] h-1 bg-border/50" />
+          <div className="absolute bottom-0 top-0 left-[35%] w-1 bg-border/50" />
+          <div className="absolute left-[35%] top-[50%] -translate-x-1/2 -translate-y-1/2">
+            <div className="flex size-9 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg">
+              <MapPin className="size-4 fill-current" />
+            </div>
+            <div className="absolute left-1/2 top-full size-14 -translate-x-1/2 -translate-y-1/2 animate-pulse-soft rounded-full bg-primary/20 blur-md" />
+          </div>
+        </div>
+        <div className="mt-3 flex items-center justify-between">
+          <div>
+            <div className="text-sm font-medium">Bloom Salon & Spa</div>
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+              <MapPin className="size-3" />
+              0.4 km · Open now
+            </div>
+          </div>
+          <div className="flex items-center gap-1 rounded-full bg-primary/10 px-2.5 py-1 text-[10px] font-medium text-primary">
+            <Star className="size-3 fill-current" />
+            4.9
+          </div>
+        </div>
+        <div className="mt-2 grid grid-cols-3 gap-2">
+          {["Directions", "Call", "Website"].map((label) => (
+            <div
+              key={label}
+              className="rounded-lg border border-border bg-background/50 py-2 text-center text-[10px] text-muted-foreground"
+            >
+              {label}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }
 
-function FloatingBadge({ icon, text }: { icon: string; text: string }) {
+function WhatsAppChatPreview() {
   return (
-    <motion.div
-      whileHover={{ scale: 1.05, y: -5 }}
-      className="glass flex items-center gap-2 rounded-full px-4 py-2 text-sm"
-    >
-      <span>{icon}</span>
-      <span className="text-muted-foreground">{text}</span>
-    </motion.div>
-  );
-}
-
-function EnhancedSphere() {
-  return (
-    <div className="relative size-[260px] md:size-[360px]">
-      {/* Multiple orbiting rings */}
-      <motion.div className="absolute inset-0 rounded-full border border-primary/20 [mask-image:linear-gradient(transparent,black,transparent)]"
-        animate={{ rotate: 360 }}
-        transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-      />
-      <motion.div className="absolute inset-4 rounded-full border border-accent/20 [mask-image:linear-gradient(90deg,transparent,black,transparent)]"
-        animate={{ rotate: -360 }}
-        transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-      />
-      <motion.div className="absolute inset-12 rounded-full border border-violet/15"
-        animate={{ rotate: 360 }}
-        transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-      />
-      <motion.div className="absolute inset-16 rounded-full border border-primary/10"
-        animate={{ rotate: -360 }}
-        transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
-      />
-
-      {/* Inner glowing core */}
-      <motion.div
-        className="absolute inset-[20%] rounded-full bg-gradient-to-br from-primary via-accent to-violet blur-md"
-        animate={{ scale: [1, 1.1, 1], opacity: [0.6, 0.9, 0.6] }}
-        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-      />
-
-      {/* Glass layer */}
-      <div className="absolute inset-[26%] rounded-full bg-background/50 backdrop-blur-xl" />
-
-      {/* Inner gradient */}
-      <motion.div
-        className="absolute inset-[30%] rounded-full bg-gradient-to-br from-primary/60 to-accent/60"
-        animate={{ scale: [1, 1.02, 1] }}
-        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-        style={{ boxShadow: "inset 0 0 60px oklch(0_0_0/0.4)" }}
-      />
-
-      {/* Center glow */}
-      <motion.div
-        className="absolute inset-[40%] rounded-full bg-gradient-to-br from-primary/80 to-accent/80 blur-sm"
-        animate={{ opacity: [0.5, 0.8, 0.5] }}
-        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-      />
+    <div className="overflow-hidden rounded-2xl border border-border bg-card">
+      <div className="flex items-center gap-2 border-b border-border px-4 py-3">
+        <div className="flex size-2 rounded-full bg-[oklch(0.65_0.2_25)]" />
+        <div className="flex size-2 rounded-full bg-[oklch(0.6_0.15_50)]" />
+        <div className="flex size-2 rounded-full bg-[oklch(0.6_0.15_130)]" />
+        <span className="ml-2 text-xs text-muted-foreground">WhatsApp</span>
+      </div>
+      <div className="p-4">
+        <div className="rounded-xl bg-[#1a2a2a] p-3">
+          <div className="mb-2 flex items-center gap-2 border-b border-border/50 pb-2">
+            <div className="flex size-7 items-center justify-center rounded-full bg-primary/20 text-[10px] font-semibold text-primary">
+              B
+            </div>
+            <div className="flex-1">
+              <div className="text-xs font-medium">Bloom Salon</div>
+              <div className="text-[9px] text-muted-foreground">Online</div>
+            </div>
+          </div>
+          <div className="space-y-2">
+            <div className="flex justify-start">
+              <div className="max-w-[85%] rounded-lg rounded-bl-sm bg-background px-3 py-1.5 text-xs leading-relaxed">
+                Hi, do you have an appointment today at 5 pm?
+              </div>
+            </div>
+            <div className="flex justify-end">
+              <div className="max-w-[85%] rounded-lg rounded-br-sm bg-primary/20 px-3 py-1.5 text-xs leading-relaxed">
+                Hi Riya! Yes, 5 pm is available. Should I confirm?
+              </div>
+            </div>
+            <div className="flex justify-start">
+              <div className="max-w-[85%] rounded-lg rounded-bl-sm bg-background px-3 py-1.5 text-xs leading-relaxed">
+                Yes please, confirm it.
+              </div>
+            </div>
+            <div className="flex justify-end">
+              <div className="max-w-[85%] rounded-lg rounded-br-sm bg-primary/20 px-3 py-1.5 text-xs leading-relaxed">
+                Booked! See you at 5 pm.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="mt-2 text-center text-[9px] uppercase tracking-wider text-muted-foreground">
+          Auto-replied in under 1s
+        </div>
+      </div>
     </div>
   );
 }
