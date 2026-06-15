@@ -11,7 +11,10 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
       orientation: "vertical",
       smoothWheel: true,
       wheelMultiplier: 0.7,
-      touchMultiplier: 1.5,
+      syncTouch: true,
+      syncTouchLerp: 0.05,
+      touchInertiaExponent: 1.5,
+      touchMultiplier: 0.9,
       autoRaf: true,
     });
     lenisRef.current = lenis;
